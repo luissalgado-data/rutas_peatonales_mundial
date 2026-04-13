@@ -152,7 +152,7 @@ const RUTAS = [
 // Capas fijas (sin checkbox)
 const FIJAS = [
   { archivo: 'AMARILLO_1.geojson',  nombre: 'Zona Amarillo 1', color: '#FDD835', fill: true },
-  { archivo: 'ULTIMA_MILLA.geojson', nombre: 'Última milla',   color: '#90A4AE', fill: true },
+  { archivo: 'ULTIMA_MILLA.geojson', nombre: 'Última milla',   color: '#42A5F5', fill: true },
 ];
 
 const legend = document.getElementById('legend');
@@ -174,7 +174,7 @@ function makeLabelIcon(num, color) {
   });
 }
 
-function getMidpoint(geojsonData) {
+function getPeriphery(geojsonData) {
   const coords = [];
   const collect = (c) => {
     if (typeof c[0] === 'number') coords.push(c);
@@ -182,8 +182,8 @@ function getMidpoint(geojsonData) {
   };
   geojsonData.features.forEach(f => collect(f.geometry.coordinates));
   if (!coords.length) return null;
-  const mid = coords[Math.floor(coords.length / 2)];
-  return [mid[1], mid[0]];
+  // Primer punto = inicio periferia de la ruta
+  return [coords[0][1], coords[0][0]];
 }
 
 // Cargar rutas con checkbox
@@ -209,7 +209,7 @@ RUTAS.forEach(r => {
 
       // Etiqueta circular numerada
       if (r.num) {
-        const mid = getMidpoint(data);
+        const mid = getPeriphery(data);
         if (mid) L.marker(mid, { icon: makeLabelIcon(r.num, r.color), interactive: false }).addTo(map);
       }
 
@@ -239,7 +239,7 @@ FIJAS.forEach(r => {
     .then(res => { if (!res.ok) throw new Error(r.archivo); return res.json(); })
     .then(data => {
       L.geoJSON(data, {
-        style: { color: r.color, weight: 2, opacity: 0.8, fillColor: r.color, fillOpacity: 0.2 }
+        style: r.archivo === 'ULTIMA_MILLA.geojson' ? { color: r.color, weight: 1.5, opacity: 0.6, fillColor: r.color, fillOpacity: 0.15 } : { color: r.color, weight: 2, opacity: 0.8, fillColor: r.color, fillOpacity: 0.25 }
       }).addTo(map);
 
       const row = document.createElement('div');
