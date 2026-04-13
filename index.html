@@ -9,70 +9,93 @@
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Barlow', sans-serif; background: #0a0a0a; color: #f0f0f0; }
+    body { font-family: 'Barlow', sans-serif; background: #f5f5f5; color: #111; }
 
     #header {
       position: absolute; top: 0; left: 0; right: 0; z-index: 1100;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, transparent 100%);
-      padding: 18px 24px 40px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.92) 0%, transparent 100%);
+      padding: 16px 24px 40px;
       pointer-events: none;
     }
     #header h1 {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 26px; font-weight: 700; letter-spacing: 1px;
-      color: #fff; text-transform: uppercase;
+      font-size: 24px; font-weight: 700; letter-spacing: 1px;
+      color: #111; text-transform: uppercase;
     }
-    #header p { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+    #header p { font-size: 12px; color: #666; margin-top: 2px; }
 
     #map { width: 100%; height: 100vh; }
 
     #panel {
       position: absolute; top: 80px; right: 16px; z-index: 1000;
-      background: rgba(10,10,10,0.92);
-      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.95);
+      border: 1px solid rgba(0,0,0,0.12);
       border-radius: 10px; padding: 14px 16px;
-      width: 230px; backdrop-filter: blur(8px);
+      width: 240px; backdrop-filter: blur(8px);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.1);
     }
     #panel h2 {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 11px; font-weight: 600; letter-spacing: 2px;
-      text-transform: uppercase; color: rgba(255,255,255,0.4);
-      margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.08);
+      text-transform: uppercase; color: #999;
+      margin-bottom: 10px; border-bottom: 1px solid #eee;
       padding-bottom: 8px;
     }
+    #panel h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px; font-weight: 600; letter-spacing: 2px;
+      text-transform: uppercase; color: #bbb;
+      margin: 12px 0 6px; border-top: 1px solid #eee;
+      padding-top: 10px;
+    }
+
     .layer-row {
       display: flex; align-items: center; gap: 9px;
       margin: 7px 0; cursor: pointer;
     }
-    .layer-row input[type=checkbox] { cursor: pointer; accent-color: #fff; }
-    .swatch {
-      width: 20px; height: 4px; border-radius: 2px; flex-shrink: 0;
+    .layer-row input[type=checkbox] { cursor: pointer; accent-color: #333; }
+    .swatch { width: 20px; height: 4px; border-radius: 2px; flex-shrink: 0; }
+    .swatch-area { width: 20px; height: 12px; border-radius: 3px; flex-shrink: 0; opacity: 0.7; }
+    .layer-label { font-size: 13px; color: #333; user-select: none; }
+    .layer-label.dimmed { color: #bbb; text-decoration: line-through; }
+
+    .fixed-row {
+      display: flex; align-items: center; gap: 9px; margin: 7px 0;
     }
-    .layer-label { font-size: 13px; color: rgba(255,255,255,0.85); user-select: none; }
-    .layer-label.dimmed { color: rgba(255,255,255,0.3); text-decoration: line-through; }
+    .fixed-label { font-size: 13px; color: #888; font-style: italic; }
 
     #info-bar {
       position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
-      z-index: 1000; background: rgba(10,10,10,0.88);
-      border: 1px solid rgba(255,255,255,0.12);
+      z-index: 1000; background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(0,0,0,0.12);
       border-radius: 20px; padding: 8px 18px;
-      font-size: 13px; color: rgba(255,255,255,0.7);
+      font-size: 13px; color: #444;
       backdrop-filter: blur(8px); white-space: nowrap;
-      transition: opacity 0.3s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    /* Etiquetas circulares */
+    .ruta-label {
+      background: white;
+      border: 3px solid currentColor;
+      border-radius: 50%;
+      width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px; font-weight: 700;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
     }
 
     .leaflet-popup-content-wrapper {
-      background: #111 !important; color: #f0f0f0 !important;
-      border: 1px solid rgba(255,255,255,0.15) !important;
-      border-radius: 8px !important; box-shadow: none !important;
+      background: #fff !important; color: #111 !important;
+      border: 1px solid rgba(0,0,0,0.12) !important;
+      border-radius: 8px !important;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.1) !important;
     }
-    .leaflet-popup-tip { background: #111 !important; }
+    .leaflet-popup-tip { background: #fff !important; }
     .leaflet-popup-content { font-family: 'Barlow', sans-serif; font-size: 13px; }
     .popup-title { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 600; margin-bottom: 4px; }
-    .popup-detail { color: rgba(255,255,255,0.55); font-size: 12px; }
-
-    .leaflet-control-measure { background: rgba(10,10,10,0.88) !important; color: #f0f0f0 !important; border: 1px solid rgba(255,255,255,0.12) !important; }
-    .leaflet-control-scale-line { background: rgba(10,10,10,0.7) !important; color: #f0f0f0 !important; border-color: rgba(255,255,255,0.3) !important; }
+    .popup-detail { color: #888; font-size: 12px; }
   </style>
 </head>
 <body>
@@ -83,8 +106,10 @@
 </div>
 
 <div id="panel">
-  <h2>Capas visibles</h2>
+  <h2>Rutas peatonales</h2>
   <div id="legend"></div>
+  <h3>Capas de referencia</h3>
+  <div id="fixed-layers"></div>
 </div>
 
 <div id="map"></div>
@@ -96,7 +121,8 @@
 
 const map = L.map('map', { zoomControl: true }).setView([19.3035, -99.1507], 14);
 
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+// Mapa base blanco (CartoDB Positron)
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
   attribution: '© OpenStreetMap · © CARTO',
   maxZoom: 19
 }).addTo(map);
@@ -111,35 +137,62 @@ const measureControl = new L.Control.Measure({
 });
 measureControl.addTo(map);
 
-// ── Configura tus rutas aquí ──
+// Rutas con checkbox (con número y color)
 const RUTAS = [
-  { archivo: 'RUTA_1_SANTA_URSULA.geojson',          nombre: 'Ruta Santa Úrsula',              color: '#CE93D8', tipo: 'ruta' },
-  { archivo: 'RUTA_2_BOULEVARD_GRAN_SUR.geojson',    nombre: 'Ruta Blvd. Gran Sur (Cantera)',  color: '#A1887F', tipo: 'ruta' },
-  { archivo: 'RUTA_3_AVENIDA_ESTADIO_AZTECA.geojson',nombre: 'Ruta Av. Estadio Azteca',        color: '#EF9A9A', tipo: 'ruta' },
-  { archivo: 'RUTA_4_RENATO_LEDUC.geojson',          nombre: 'Ruta Renato Leduc',              color: '#FFF176', tipo: 'ruta' },
-  { archivo: 'RUTA_5_CALZADA_DE_TLALPAN.geojson',    nombre: 'Ruta Calz. Tlalpan',            color: '#A5D6A7', tipo: 'ruta' },
-  { archivo: 'RUTA_6_CALZADA_ACOXPA.geojson',        nombre: 'Ruta Paseo Acoxpa',             color: '#80DEEA', tipo: 'ruta' },
-  { archivo: 'RUTA_7_EL_VERGEL.geojson',             nombre: 'Ruta El Vergel',                color: '#90CAF9', tipo: 'ruta' },
-  { archivo: 'RUTAS_EXTRAS.geojson',                 nombre: 'Rutas extras',                  color: '#FFAB91', tipo: 'extra' },
-  { archivo: 'AMARILLO_1.geojson',                   nombre: 'Zona Amarillo 1',               color: '#FFEE58', tipo: 'zona' },
-  { archivo: 'ULTIMA_MILLA.geojson',                 nombre: 'Última milla',                  color: '#B0BEC5', tipo: 'zona' },
+  { archivo: 'RUTA_1_SANTA_URSULA.geojson',           nombre: 'Ruta Santa Úrsula',             color: '#9C27B0', num: 1 },
+  { archivo: 'RUTA_2_BOULEVARD_GRAN_SUR.geojson',     nombre: 'Ruta Blvd. Gran Sur (Cantera)', color: '#795548', num: 2 },
+  { archivo: 'RUTA_3_AVENIDA_ESTADIO_AZTECA.geojson', nombre: 'Ruta Av. Estadio Azteca',       color: '#E53935', num: 3 },
+  { archivo: 'RUTA_4_RENATO_LEDUC.geojson',           nombre: 'Ruta Renato Leduc',             color: '#F9A825', num: 4 },
+  { archivo: 'RUTA_5_CALZADA_DE_TLALPAN.geojson',     nombre: 'Ruta Calz. Tlalpan',           color: '#43A047', num: 5 },
+  { archivo: 'RUTA_6_CALZADA_ACOXPA.geojson',         nombre: 'Ruta Paseo Acoxpa',            color: '#00ACC1', num: 6 },
+  { archivo: 'RUTA_7_EL_VERGEL.geojson',              nombre: 'Ruta El Vergel',               color: '#1E88E5', num: 7 },
+  { archivo: 'RUTAS_EXTRAS.geojson',                  nombre: 'Rutas extras',                 color: '#616161', num: null },
+];
+
+// Capas fijas (sin checkbox)
+const FIJAS = [
+  { archivo: 'AMARILLO_1.geojson',  nombre: 'Zona Amarillo 1', color: '#FDD835', fill: true },
+  { archivo: 'ULTIMA_MILLA.geojson', nombre: 'Última milla',   color: '#90A4AE', fill: true },
 ];
 
 const legend = document.getElementById('legend');
+const fixedDiv = document.getElementById('fixed-layers');
 const infoBar = document.getElementById('info-bar');
 
+function makeLabelIcon(num, color) {
+  return L.divIcon({
+    className: '',
+    html: `<div style="
+      background:white; border:3px solid ${color}; border-radius:50%;
+      width:28px; height:28px; display:flex; align-items:center; justify-content:center;
+      font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:700;
+      color:${color}; box-shadow:0 1px 4px rgba(0,0,0,0.25);">
+      ${num}
+    </div>`,
+    iconSize: [28, 28],
+    iconAnchor: [14, 14]
+  });
+}
+
+function getMidpoint(geojsonData) {
+  const coords = [];
+  const collect = (c) => {
+    if (typeof c[0] === 'number') coords.push(c);
+    else c.forEach(collect);
+  };
+  geojsonData.features.forEach(f => collect(f.geometry.coordinates));
+  if (!coords.length) return null;
+  const mid = coords[Math.floor(coords.length / 2)];
+  return [mid[1], mid[0]];
+}
+
+// Cargar rutas con checkbox
 RUTAS.forEach(r => {
   fetch(r.archivo)
-    .then(res => {
-      if (!res.ok) throw new Error('No encontrado: ' + r.archivo);
-      return res.json();
-    })
+    .then(res => { if (!res.ok) throw new Error(r.archivo); return res.json(); })
     .then(data => {
-      const esLinea = r.tipo === 'ruta' || r.tipo === 'extra';
       const layer = L.geoJSON(data, {
-        style: esLinea
-          ? { color: r.color, weight: 4, opacity: 0.9 }
-          : { color: r.color, weight: 2, opacity: 0.7, fillColor: r.color, fillOpacity: 0.15 },
+        style: { color: r.color, weight: 3, opacity: 0.9, dashArray: '8, 8' },
         onEachFeature: (feature, lyr) => {
           const props = feature.properties || {};
           const extra = Object.entries(props)
@@ -150,15 +203,20 @@ RUTAS.forEach(r => {
             <div class="popup-title" style="color:${r.color}">${r.nombre}</div>
             ${extra || '<span class="popup-detail">Sin atributos adicionales</span>'}
           `);
-          lyr.on('click', () => {
-            infoBar.textContent = r.nombre;
-          });
+          lyr.on('click', () => { infoBar.textContent = r.nombre; });
         }
       }).addTo(map);
 
+      // Etiqueta circular numerada
+      if (r.num) {
+        const mid = getMidpoint(data);
+        if (mid) L.marker(mid, { icon: makeLabelIcon(r.num, r.color), interactive: false }).addTo(map);
+      }
+
+      // Leyenda con checkbox
       const row = document.createElement('div');
       row.className = 'layer-row';
-      const cbId = 'cb_' + r.archivo.replace(/\W/g,'_');
+      const cbId = 'cb_' + r.num;
       row.innerHTML = `
         <input type="checkbox" id="${cbId}" checked>
         <div class="swatch" style="background:${r.color}"></div>
@@ -172,7 +230,27 @@ RUTAS.forEach(r => {
       });
       legend.appendChild(row);
     })
-    .catch(err => console.warn(err.message));
+    .catch(err => console.warn('No se pudo cargar:', err.message));
+});
+
+// Cargar capas fijas (sin checkbox)
+FIJAS.forEach(r => {
+  fetch(r.archivo)
+    .then(res => { if (!res.ok) throw new Error(r.archivo); return res.json(); })
+    .then(data => {
+      L.geoJSON(data, {
+        style: { color: r.color, weight: 2, opacity: 0.8, fillColor: r.color, fillOpacity: 0.2 }
+      }).addTo(map);
+
+      const row = document.createElement('div');
+      row.className = 'fixed-row';
+      row.innerHTML = `
+        <div class="swatch-area" style="background:${r.color}"></div>
+        <span class="fixed-label">${r.nombre}</span>
+      `;
+      fixedDiv.appendChild(row);
+    })
+    .catch(err => console.warn('No se pudo cargar:', err.message));
 });
 
 </script>
