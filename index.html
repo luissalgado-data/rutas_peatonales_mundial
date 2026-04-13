@@ -54,8 +54,8 @@
       margin: 7px 0; cursor: pointer;
     }
     .layer-row input[type=checkbox] { cursor: pointer; accent-color: #333; }
-    .swatch { width: 20px; height: 4px; border-radius: 2px; flex-shrink: 0; }
-    .swatch-area { width: 20px; height: 12px; border-radius: 3px; flex-shrink: 0; opacity: 0.7; }
+    .swatch { width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; color: white; }
+    .swatch-area { width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0; opacity: 0.85; }
     .layer-label { font-size: 13px; color: #333; user-select: none; }
     .layer-label.dimmed { color: #bbb; text-decoration: line-through; }
 
@@ -108,7 +108,7 @@
 <div id="panel">
   <h2>Rutas peatonales</h2>
   <div id="legend"></div>
-  <h3>Capas de referencia</h3>
+
   <div id="fixed-layers"></div>
 </div>
 
@@ -219,7 +219,7 @@ RUTAS.forEach(r => {
       const cbId = 'cb_' + r.num;
       row.innerHTML = `
         <input type="checkbox" id="${cbId}" checked>
-        <div class="swatch" style="background:${r.color}"></div>
+        <div class="swatch" style="background:${r.color}">${r.num || ""}</div>
         <label class="layer-label" for="${cbId}">${r.nombre}</label>
       `;
       const cb = row.querySelector('input');
