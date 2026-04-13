@@ -1,8 +1,0 @@
-{
-"type": "FeatureCollection",
-"name": "RUTA_6_CALZADA_ACOXPA",
-"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-"features": [
-{ "type": "Feature", "properties": { "id": 6 }, "geometry": { "type": "MultiLineString", "coordinates": [ [ [ -99.13837661564871, 19.297958134716421 ], [ -99.14465282494902, 19.300413583411466 ], [ -99.145522377969399, 19.300718030008046 ], [ -99.147030070706364, 19.300956292166717 ], [ -99.148208174798498, 19.302041704276302 ] ] ] } }
-]
-}
