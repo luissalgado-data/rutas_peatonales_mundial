@@ -1,8 +1,0 @@
-{
-"type": "FeatureCollection",
-"name": "RUTA_7_EL_VERGEL",
-"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-"features": [
-{ "type": "Feature", "properties": { "id": 7 }, "geometry": { "type": "MultiLineString", "coordinates": [ [ [ -99.142310641813495, 19.308524244322694 ], [ -99.147035330099555, 19.302142633999797 ], [ -99.147540231853327, 19.302440459050441 ] ] ] } }
-]
-}
