@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "RUTA_5_CALZADA_DE_TLALPAN",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "id": 5 }, "geometry": { "type": "MultiLineString", "coordinates": [ [ [ -99.155262774302585, 19.295287544237922 ], [ -99.151174472601909, 19.298239421139254 ] ] ] } }
+]
+}
